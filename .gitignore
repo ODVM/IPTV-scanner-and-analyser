@@ -1,0 +1,42 @@
+# ---- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# ---- Test / type-check caches ----------------------------------------------
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ---- Build output (build.py / PyInstaller) ---------------------------------
+build/
+dist/
+*.spec
+*.exe
+
+# ---- Personal data and runtime files: NEVER commit these -------------------
+# Config holds your playlist URLs (and the VPN connection name).
+scanner_config.json
+scanner_config.tmp
+.write_probe
+
+# Logs and VPN state/helper files (normally in %LOCALAPPDATA%\IPTV_Scanner,
+# but they may appear next to the program when running in dev mode).
+*.log
+*.log.[0-9]
+vpn_client_state.json
+vpn_helper.log*
+
+# Playlists and scan results: may contain private URLs and credentials.
+*.m3u
+*.m3u8
+
+# ---- Editors / OS ----------------------------------------------------------
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

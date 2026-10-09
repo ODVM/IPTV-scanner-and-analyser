@@ -1,0 +1,17 @@
+# Normalize line endings in the repository to LF. Without this, files that were
+# edited on Windows with CRLF (e.g. vpn.py) show up as fully rewritten in diffs.
+* text=auto
+
+*.py   text eol=lf
+*.pyw  text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+*.ini  text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Binary files: never touch or diff as text.
+*.ico  binary
+*.png  binary
+*.exe  binary

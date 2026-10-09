@@ -1,0 +1,38 @@
+name: Type check
+
+on:
+  push:
+    paths:
+      - "**.py"
+      - "**.pyw"
+      - "mypy.ini"
+      - ".github/workflows/typecheck.yml"
+  pull_request:
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mypy requests
+          # types-requests нужен отдельно от requests — свои .pyi
+          pip install types-requests
+          # truststore импортируется в IPTV_scanner.pyw; пакет типизирован
+          # (py.typed), поэтому достаточно установить его, а не глушить
+          # ошибку через ignore_missing_imports.
+          pip install truststore
+
+      # mypy.ini уже задаёт platform = win32, поэтому Windows-only ветки
+      # кода (ctypes.wintypes, winreg, winsound и т.п.) проверяются
+      # корректно даже при запуске раннера на Linux — без реального
+      # запуска кода, только по типам.
+      - name: Run mypy
+        run: mypy

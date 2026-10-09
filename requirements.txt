@@ -1,0 +1,10 @@
+# Runtime dependencies of IPTV Channel Scanner.
+# Tkinter is part of the Python standard library (on Debian/Ubuntu: apt install python3-tk).
+
+requests>=2.31
+
+# Verifies HTTPS playlists against the system (Windows) certificate store, which
+# helps behind a corporate CA. Optional at runtime (the scanner falls back to the
+# certifi bundle), but build.py bundles it into the .exe, so it is listed here.
+# Requires Python 3.10+.
+truststore>=0.9; python_version >= "3.10"

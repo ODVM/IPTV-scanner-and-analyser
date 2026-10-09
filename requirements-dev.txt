@@ -1,0 +1,13 @@
+# Development tools: tests, type checking and building the .exe.
+# Install with: pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+pytest
+pytest-timeout
+
+mypy
+types-requests
+
+# Only needed to build IPTV_Scanner.exe / vpn.exe (python build.py).
+pyinstaller

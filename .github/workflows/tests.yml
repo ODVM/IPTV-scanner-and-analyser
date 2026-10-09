@@ -1,0 +1,41 @@
+name: Tests
+
+on:
+  push:
+    paths:
+      - "**.py"
+      - "**.pyw"
+      - "requirements*.txt"
+      - ".github/workflows/tests.yml"
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # truststore намеренно НЕ ставим: он опционален в коде, а при импорте
+      # вызывает inject_into_ssl() и меняет глобальное состояние SSL.
+      #
+      # IPTV_scanner.pyw импортирует tkinter на уровне модуля (окно при этом
+      # не создаётся, но сам импорт обязан пройти). На образе ubuntu-latest
+      # tkinter из setup-python обычно есть; apt-пакет — страховка.
+      - name: Install tkinter
+        run: sudo apt-get update && sudo apt-get install -y python3-tk
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-timeout requests
+
+      # Тесты не открывают внешних соединений (только 127.0.0.1) и не
+      # запускают route.exe/powershell.exe. Windows-only код в модулях
+      # спрятан за IS_WINDOWS, поэтому на Linux тестируется
+      # кросс-платформенная часть.
+      - name: Run pytest
+        run: pytest -q --timeout=60
